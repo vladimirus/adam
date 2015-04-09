@@ -1,4 +1,4 @@
-package adam;
+package com.adam;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
