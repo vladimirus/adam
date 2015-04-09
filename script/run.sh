@@ -1,9 +1,10 @@
 #!/bin/bash
-DIR=../target
+cd $1
 
-kill -9 `cat ${DIR}/pid`
+kill -9 `cat pid`
+rm -f adam.jar
+mv *SNAPSHOT*.jar adam.jar
 
-nohup java -jar ${DIR}/com.adam-0.0.1-SNAPSHOT.jar > ${DIR}/out.log &
-
+nohup java -jar adam.jar --email=$2 --password=$3 > out.log &
 PID=$!
-echo "$PID" > ${DIR}/pid
+echo "$PID" > pid
