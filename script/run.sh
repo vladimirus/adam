@@ -1,7 +1,6 @@
 #!/bin/bash
 
-DIR = $1
-cd $DIR
+cd $1
 . props.cfg
 
 kill -9 `cat pid`
