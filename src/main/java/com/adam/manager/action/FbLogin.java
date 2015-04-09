@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FbLogin {
-    @Value("${email}")
+    @Value("${facebook.email}")
     private String email;
-    @Value("${password}")
+    @Value("${facebook.password}")
     private String password;
 
     public void login(WebDriver driver) {
