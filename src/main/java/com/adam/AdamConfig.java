@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 public class AdamConfig {
 
     @Bean
-    public RestTemplate transferService() {
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 

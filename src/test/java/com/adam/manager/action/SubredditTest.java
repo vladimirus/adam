@@ -1,13 +1,14 @@
 package com.adam.manager.action;
 
+import static java.util.Collections.addAll;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.isA;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import org.junit.Ignore;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,30 +28,44 @@ public class SubredditTest {
     @Mock
     private RestTemplate restTemplate;
 
-//    {"data": { "children": [ {data": { "domain": "self.Showerthoughts"
-
     @Test
-    @Ignore
+//    @Ignore
     public void shouldReturnThoughts() {
         // given
-        given(restTemplate.getForObject(isA(String.class), isA(Class.class))).willReturn("test");
-
-
-        JsonObject json = new JsonObject();
-        JsonArray children = new JsonArray();
-        JsonObject child = new JsonObject();
-        JsonObject childAttributes = new JsonObject();
-        child.add("data", childAttributes);
-
-        children.add(child);
-
-        json.add("data", children);
-
+        String json = subreddit(listing("title1"), listing("title2")).toJSONString();
+        given(restTemplate.getForObject(isA(String.class), isA(Class.class))).willReturn(json);
 
         // when
         Collection<String> actual = subreddit.showerthoughts();
 
         // then
         assertThat(actual, hasSize(2));
+        assertThat(actual.contains("title1"), is(true));
+    }
+
+    private JSONObject subreddit(JSONObject... children) {
+        JSONObject data = new JSONObject();
+        data.put("children", jsonArrayOf(children));
+
+        JSONObject root = new JSONObject();
+        root.put("data", data);
+        root.put("kind", "listing");
+        return root;
+    }
+
+    private JSONObject listing(String title) {
+        JSONObject subreddit = new JSONObject();
+        subreddit.put("title", title);
+
+        JSONObject actualObject = new JSONObject();
+        actualObject.put("data", subreddit);
+        actualObject.put("kind", "t5");
+        return actualObject;
+    }
+
+    private JSONArray jsonArrayOf(Object... items) {
+        JSONArray array = new JSONArray();
+        addAll(array, items);
+        return array;
     }
 }
