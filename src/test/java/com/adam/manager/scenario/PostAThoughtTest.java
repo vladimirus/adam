@@ -101,6 +101,6 @@ public class PostAThoughtTest {
         // then
         verify(browser, never()).firefoxDriver();
         verify(fbLogin, never()).login(isA(WebDriver.class));
-        verify(fbStatus, never()).updateStatus(driver, "one");
+        verify(fbStatus, never()).updateStatus(driver, isA(String.class));
     }
 }
