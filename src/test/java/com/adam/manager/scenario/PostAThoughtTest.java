@@ -84,7 +84,7 @@ public class PostAThoughtTest {
 
         // then
         verify(browser).firefoxDriver();
-        verify(fbLogin).login(isA(WebDriver.class));
+        verify(fbLogin).login(driver);
         verify(fbStatus).updateStatus(driver, "one");
     }
 
