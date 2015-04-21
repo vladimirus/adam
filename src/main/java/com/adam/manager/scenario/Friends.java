@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class Friends {
     private final static Logger log = getLogger(Friends.class);
-
     @Autowired
     private Browser browser;
     @Autowired
@@ -22,7 +21,7 @@ public class Friends {
     @Autowired
     private FbFriends fbFriends;
 
-    @Scheduled(cron = "1 5 10 * * SAT-SUN")
+    @Scheduled(cron = "1 5 10 * * SAT,SUN")
     public void makeFriends() {
         WebDriver driver = browser.firefoxDriver();
         fbLogin.login(driver);
