@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-
 @Component
 public class Friends {
     private final static Logger log = getLogger(Friends.class);
@@ -24,11 +22,7 @@ public class Friends {
     @Autowired
     private FbFriends fbFriends;
 
-    @Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() {
-        log.debug("The time is now " + new Date());
-    }
-
+    @Scheduled(cron = "1 5 10 * * SAT-SUN")
     public void makeFriends() {
         WebDriver driver = browser.firefoxDriver();
         fbLogin.login(driver);

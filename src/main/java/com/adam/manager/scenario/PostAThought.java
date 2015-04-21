@@ -12,6 +12,7 @@ import com.google.common.base.Predicate;
 import com.google.common.cache.Cache;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -35,6 +36,7 @@ public class PostAThought {
                 .build();
     }
 
+    @Scheduled(cron = "1 */783 * * * *") //every 13 hours
     public void postAThought() {
         Optional<String> thought = getThought(subreddit.showerthoughts());
         if (thought.isPresent()) {
