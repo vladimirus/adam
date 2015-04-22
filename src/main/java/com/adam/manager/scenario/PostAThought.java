@@ -36,7 +36,7 @@ public class PostAThought {
                 .build();
     }
 
-    @Scheduled(cron = "1 */783 * * * *") //every 13 hours
+    @Scheduled(cron = "1 2 */13 * * *") //every 13 hours
     public void postAThought() {
         Optional<String> thought = getThought(subreddit.showerthoughts());
         if (thought.isPresent()) {
