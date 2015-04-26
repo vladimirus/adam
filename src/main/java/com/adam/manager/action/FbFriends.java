@@ -62,7 +62,7 @@ public class FbFriends {
         Friend clicked = null;
         Friend dbFriend = friendRepository.findByName(friend.getName());
         if (dbFriend == null) {
-            if (friend.getNoOfMutualFrieds() >= 14) {
+            if (friend.getNoOfMutualFrieds() >= 14 && friend.getNoOfMutualFrieds() < 50) {
                 WebElement button = element.findElement(By.cssSelector(friend.getAddLink()));
                 if ("Add friend".equalsIgnoreCase(button.getText())) {
                     log.debug("Befriending " + friend.getName());
