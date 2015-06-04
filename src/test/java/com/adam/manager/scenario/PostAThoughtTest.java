@@ -1,9 +1,9 @@
 package com.adam.manager.scenario;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
@@ -14,7 +14,6 @@ import com.adam.manager.Browser;
 import com.adam.manager.action.FbLogin;
 import com.adam.manager.action.FbStatus;
 import com.adam.manager.action.Subreddit;
-import com.google.common.base.Optional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,7 +22,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.WebDriver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PostAThoughtTest {
@@ -60,6 +59,15 @@ public class PostAThoughtTest {
     }
 
     @Test
+    public void shouldGetSecondAgainThought() {
+        // when
+        Optional<String> actual = postAThought.getThought(asList("One reddit something", "Two"));
+
+        // then
+        assertThat(actual.get(), is("Two"));
+    }
+
+    @Test
     public void shouldReturnEmpty() {
         // given
         postAThought.getThought(asList("One", "Two")); // first thought is consumed
@@ -77,7 +85,7 @@ public class PostAThoughtTest {
         // given
         WebDriver driver = mock(WebDriver.class);
         given(browser.firefoxDriver()).willReturn(driver);
-        given(subreddit.showerthoughts()).willReturn(Arrays.asList("one"));
+        given(subreddit.showerthoughts()).willReturn(singletonList("one"));
 
         // when
         postAThought.postAThought();
@@ -93,7 +101,7 @@ public class PostAThoughtTest {
         // given
         WebDriver driver = mock(WebDriver.class);
         given(browser.firefoxDriver()).willReturn(driver);
-        given(subreddit.showerthoughts()).willReturn(new ArrayList<String>());
+        given(subreddit.showerthoughts()).willReturn(new ArrayList<>());
 
         // when
         postAThought.postAThought();

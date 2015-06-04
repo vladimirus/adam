@@ -1,14 +1,11 @@
 package com.adam.manager.scenario;
 
 import static com.google.common.cache.CacheBuilder.newBuilder;
-import static com.google.common.collect.FluentIterable.from;
 
 import com.adam.manager.Browser;
 import com.adam.manager.action.FbLogin;
 import com.adam.manager.action.FbStatus;
 import com.adam.manager.action.Subreddit;
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.cache.Cache;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Component
 public class PostAThought {
@@ -48,15 +46,13 @@ public class PostAThought {
     }
 
     Optional<String> getThought(Collection<String> thoughts) {
-        return from(thoughts).firstMatch(new Predicate<String>() {
-            @Override
-            public boolean apply(final String input) {
-                if (cache.getIfPresent(input.hashCode()) == null) {
-                    cache.put(input.hashCode(), input);
+        return thoughts.stream()
+                .filter(in -> cache.getIfPresent(in.hashCode()) == null)
+                .filter(in -> !in.toLowerCase().contains("reddit"))
+                .filter(in -> {
+                    cache.put(in.hashCode(), in);
                     return true;
-                }
-                return false;
-            }
-        });
+                })
+                .findFirst();
     }
 }
