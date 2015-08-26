@@ -31,6 +31,7 @@ public class Subreddit {
         return rangeClosed(1, 100)
                 .mapToObj(i -> {
                     try {
+                        log.info("Getting showerthoughts");
                         String response = restTemplate.getForObject("http://www.reddit.com/r/showerthoughts/top.json?&limit=100&show=all&t=day", String.class);
                         return parseShowerthoughts((JSONObject) parse(response));
                     } catch (Exception ignore) {
